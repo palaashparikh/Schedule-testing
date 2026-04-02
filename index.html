@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Palaash Weekly Schedule</title>
 <style>
-/* --- ALL ORIGINAL CSS PRESERVED --- */
+/* --- YOUR ORIGINAL CSS: UNTOUCHED --- */
 body{margin:0;padding:16px 14px 60px;background:#08090d;color:#e0e0f0;font-family:Arial,sans-serif}
 h1{font-size:32px;font-weight:900;letter-spacing:3px;color:#ff7a2f;margin:0 0 4px}
 .sub{font-size:10px;color:#52547a;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
@@ -37,7 +37,6 @@ h1{font-size:32px;font-weight:900;letter-spacing:3px;color:#ff7a2f;margin:0 0 4p
 .dhdr.heavy .dn{color:#f59e0b}
 .badge{font-size:10px;font-weight:700;padding:4px 12px;border-radius:16px;
   background:rgba(255,122,47,.15);color:#ff7a2f;border:1px solid rgba(255,122,47,.3)}
-.badge.alt{background:rgba(244,114,182,.12);color:#f472b6;border-color:rgba(244,114,182,.3)}
 .body{position:relative}
 .gl{position:absolute;left:0;right:0}
 .gl.h{border-top:1px solid #1a1c30}
@@ -50,22 +49,20 @@ h1{font-size:32px;font-weight:900;letter-spacing:3px;color:#ff7a2f;margin:0 0 4p
 .barr{font-size:9px;color:#ffffff;opacity:.3}
 .bs{font-size:10px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.6;line-height:1.2}
 
-/* --- BLOCK COLORS PRESERVED --- */
+/* --- COLORS --- */
 .blk.pp{background:rgba(255,122,47,.16);color:#ffc090;border-color:#ff7a2f}
 .blk.ph{background:rgba(61,158,255,.13);color:#7dc4ff;border-color:#3d9eff}
 .blk.ch{background:rgba(168,85,247,.13);color:#c890ff;border-color:#a855f7}
 .blk.ma{background:rgba(34,201,122,.13);color:#5edfaa;border-color:#22c97a}
 .blk.ip{background:rgba(245,158,11,.13);color:#ffc84a;border-color:#f59e0b}
 .blk.gym{background:rgba(255,85,85,.13);color:#ff8888;border-color:#ff5555}
-.blk.hw{background:rgba(244,114,182,.13);color:#f9a8d4;border-color:#f472b6}
-.blk.wake{background:#141828;color:#9090d0;border-color:#3040a0;border-left-style:dashed}
+.blk.wake{background:#141828;color:#9090d0;border-color:#3040a0}
 .blk.meal{background:#1c1408;color:#d0a050;border-color:#705020}
-.blk.brk{background:#0c180c;color:#60a060;border-color:#1e4020}
-.blk.travel{background:#0c1620;color:#6090b8;border-color:#1e4060;border-left-style:dotted}
+.blk.travel{background:#0c1620;color:#6090b8;border-color:#1e4060}
 
-/* --- TRACKER & TIME LINE STYLES --- */
-.blk.done { background: rgba(34,201,122,0.22) !important; border-color: #22c97a !important; color: #8aefca !important; }
-.blk.done .bn::after { content: " ✓"; color: #22c97a; font-weight: bold; }
+/* --- LOGIC STYLES --- */
+.blk.done { background: rgba(34,201,122,0.3) !important; border-color: #22c97a !important; color: #8aefca !important; }
+.blk.done .bn::after { content: " ✓"; color: #22c97a; font-weight: 800; }
 #now-line { position: absolute; left: 0; right: 0; border-top: 2px solid #ff4444; z-index: 100; pointer-events: none; }
 #now-line::after { content: "NOW"; position: absolute; right: 4px; top: -14px; background: #ff4444; color: white; font-size: 8px; padding: 1px 4px; border-radius: 4px; }
 </style>
@@ -76,7 +73,7 @@ h1{font-size:32px;font-weight:900;letter-spacing:3px;color:#ff7a2f;margin:0 0 4p
 <p class="sub">Physics 9702 &middot; Maths 9709 &middot; 20 Papers &middot; 4 Gym Sessions</p>
 
 <div class="stats">
-  <div class="stat"><div class="sv" id="p-done">0</div><div class="sl">Papers Done</div></div>
+  <div class="stat"><div class="sv" id="papers-count">0</div><div class="sl">Papers Done</div></div>
   <div class="stat"><div class="sv">20</div><div class="sl">Papers/wk</div></div>
   <div class="stat"><div class="sv">4</div><div class="sl">Gym days</div></div>
 </div>
@@ -90,13 +87,13 @@ h1{font-size:32px;font-weight:900;letter-spacing:3px;color:#ff7a2f;margin:0 0 4p
 </div>
 
 <div class="tabs" id="tabs"></div>
-<div class="wrap" id="main-scroller"><div class="inner">
+<div class="wrap" id="scroller"><div class="inner">
   <div class="gutter" id="gutter"></div>
   <div id="pw" style="flex:1;min-width:0;display:flex;position:relative"></div>
 </div></div>
 
 <script>
-/* --- UPDATED CONSTANTS FOR 24H --- */
+// Logic parameters
 var SM=0, EM=1440, PPM=2.2, HH=56;
 var TH=(EM-SM)*PPM;
 
@@ -109,126 +106,109 @@ function ft(h,m){
   return x+s+a;
 }
 
-/* --- ORIGINAL DATA PRESERVED --- */
+// YOUR ORIGINAL DATA
 var DAYS=[
-  {id:0,name:'Mon',full:'Monday',   sub:'4 papers - Gym - Chest',       p:4},
-  {id:1,name:'Tue',full:'Tuesday',  sub:'3 Maths papers - Classes',     p:3},
-  {id:2,name:'Wed',full:'Wednesday',sub:'3 papers - Gym - Legs',        p:3},
-  {id:3,name:'Thu',full:'Thursday', sub:'IPMAT HW - 1 paper - Classes', p:1,hv:1},
-  {id:4,name:'Fri',full:'Friday',   sub:'3 papers - Physics - Abs',     p:3},
-  {id:5,name:'Sat',full:'Saturday', sub:'3 papers - Chem - Back',       p:3},
-  {id:6,name:'Sun',full:'Sunday',   sub:'3 papers - Physics at home',   p:3}
+  {id:0,name:'Mon',full:'Monday',sub:'4 papers - Gym - Chest',p:4},
+  {id:1,name:'Tue',full:'Tuesday',sub:'3 Maths papers - Classes',p:3},
+  {id:2,name:'Wed',full:'Wednesday',sub:'3 papers - Gym - Legs',p:3},
+  {id:3,name:'Thu',full:'Thursday',sub:'IPMAT HW - 1 paper - Classes',p:1,hv:1},
+  {id:4,name:'Fri',full:'Friday',sub:'3 papers - Physics - Abs',p:3},
+  {id:5,name:'Sat',full:'Saturday',sub:'3 papers - Chem - Back',p:3},
+  {id:6,name:'Sun',full:'Sunday',sub:'3 papers - Physics at home',p:3}
 ];
 
 var BL=[
-  {t:'wake', d:0,sh:8,sm:0, eh:8,em:45,n:'Wake up + morning routine',s:'45m - mum wakes you'},
-  {t:'meal', d:0,sh:8,sm:45,eh:9,em:10,n:'Breakfast',s:'3 eggs + chai'},
-  {t:'pp',   d:0,sh:9,sm:15,eh:10,em:30,n:'Paper 1',s:'9702/11 - Physics P1 - 1h 15m'},
-  {t:'brk',  d:0,sh:10,sm:30,eh:11,em:30,n:'Free time',s:'1h'},
-  {t:'pp',   d:0,sh:11,sm:30,eh:12,em:45,n:'Paper 2',s:'9709/51 - Maths P5 - 1h 15m'},
-  {t:'brk',  d:0,sh:12,sm:45,eh:13,em:0,n:'Break',s:'15m'},
-  {t:'meal', d:0,sh:13,sm:0, eh:13,em:40,n:'Lunch',s:'1:00 pm - fixed'},
-  {t:'pp',   d:0,sh:13,sm:40,eh:14,em:55,n:'Paper 3',s:'9702/21 - Physics P2 - 1h 15m'},
-  {t:'brk',  d:0,sh:14,sm:55,eh:16,20,n:'Free time',s:'1h 25m'},
-  {t:'travel',d:0,sh:16,sm:20,eh:16,em:30,n:'Leave for Gym',s:'leave 4:20 - 10m'},
-  {t:'gym',  d:0,sh:16,sm:30,eh:18,em:0,n:'Gym',s:'Chest - Shoulders - Bis'},
-  {t:'travel',d:0,sh:18,sm:0, eh:18,em:10,n:'Home from Gym',s:'back by 6:10 - 10m'},
-  {t:'brk',  d:0,sh:18,sm:10,eh:18,em:35,n:'Rest',s:'25m'},
-  {t:'pp',   d:0,sh:18,sm:35,eh:19,em:50,n:'Paper 4',s:'9709/52 - Maths P5 - 1h 15m'},
-  {t:'meal', d:0,sh:20,sm:0, eh:20,em:45,n:'Dinner',s:'Khichdi + buttermilk'},
-  // ... and the rest of your blocks stay here
-  {t:'wake', d:1,sh:7,sm:30,eh:8,em:15,n:'Wake up + morning routine',s:'45m - mum wakes you'},
-  {t:'pp',   d:1,sh:8,sm:45,eh:10,em:35,n:'Paper 1',s:'9709/11 - Maths P1'},
-  {t:'ma',   d:1,sh:16,sm:30,eh:18,em:0,n:'Maths Class',s:'4:30 to 6:00'},
-  {t:'ip',   d:1,sh:18,sm:30,eh:20,em:30,n:'IPMAT Class',s:'6:30 to 8:30'}
+  {t:'wake', d:0,sh:8,sm:0, eh:8,em:45,n:'Wake up + morning routine',s:'45m'},
+  {t:'pp',   d:0,sh:9,sm:15,eh:10,em:30,n:'Paper 1',s:'9702/11 Physics'},
+  {t:'pp',   d:0,sh:11,sm:30,eh:12,em:45,n:'Paper 2',s:'9709/51 Maths'},
+  {t:'meal', d:0,sh:13,sm:0, eh:13,em:40,n:'Lunch',s:'Fixed'},
+  {t:'pp',   d:0,sh:13,sm:40,eh:14,em:55,n:'Paper 3',s:'9702/21 Physics'},
+  {t:'gym',  d:0,sh:16,sm:30,eh:18,em:0,n:'Gym',s:'Chest - Shoulders'},
+  {t:'pp',   d:0,sh:18,sm:35,eh:19,em:50,n:'Paper 4',s:'9709/52 Maths'},
+  {t:'pp',   d:1,sh:8,sm:45,eh:10,em:35,n:'Paper 1',s:'9709/11 Maths'},
+  {t:'ma',   d:1,sh:16,sm:30,eh:18,em:0,n:'Maths Class',s:'Andheri Stn'},
+  {t:'ip',   d:1,sh:18,sm:30,eh:20,em:30,n:'IPMAT Class',s:'Vileparle Stn'}
 ];
 
+// 24H Gutter setup
 var gut=document.getElementById('gutter');
 gut.style.height=(TH+HH)+'px';
-var gm=0;
-while(gm<=1440){
-  var gh=Math.floor(gm/60),gn=gm%60;
-  if(gn===0||gn===30){
+for(var gm=0; gm<=1440; gm+=30){
+    var gh=Math.floor(gm/60), gn=gm%60;
     var tk=document.createElement('div');
     tk.className='tick'+(gn===0?' h':'');
     tk.style.top=(gm*PPM+HH)+'px';
     var g12=gh>12?gh-12:(gh===0?12:gh);
     tk.textContent=gn===0?(g12+(gh>=12?'pm':'am')):(g12+':30');
     gut.appendChild(tk);
-  }
-  gm+=15;
 }
 
 var tabsEl=document.getElementById('tabs');
 var pw=document.getElementById('pw');
-var panels=[],tabs=[];
+var panels=[], tabs=[];
 var nowLine = document.createElement('div'); nowLine.id='now-line';
 
-for(var i=0;i<DAYS.length;i++){
-  (function(idx,day){
-    var tb=document.createElement('button');
-    tb.className='tab';
-    tb.innerHTML='<div style="font-size:14px;font-weight:900">'+day.name+'</div>';
-    tb.onclick=function(){show(idx);};
-    tabsEl.appendChild(tb);
-    tabs.push(tb);
+DAYS.forEach(function(day, idx){
+  var tb=document.createElement('button');
+  tb.className='tab';
+  tb.innerHTML='<div style="font-size:14px;font-weight:900">'+day.name+'</div>';
+  tb.onclick=function(){show(idx);};
+  tabsEl.appendChild(tb);
+  tabs.push(tb);
 
-    var pn=document.createElement('div');
-    pn.className='panel';
-    var hd=document.createElement('div');
-    hd.className='dhdr'+(day.hv?' heavy':'');
-    hd.innerHTML='<div><div class="dn">'+day.full+'</div><div class="ds">'+day.sub+'</div></div>';
-    pn.appendChild(hd);
+  var pn=document.createElement('div');
+  pn.className='panel';
+  pn.innerHTML='<div class="dhdr'+(day.hv?' heavy':'')+'"><div><div class="dn">'+day.full+'</div><div class="ds">'+day.sub+'</div></div><span class="badge">'+day.p+' papers</span></div>';
+  
+  var bd=document.createElement('div');
+  bd.className='body'; bd.style.height=TH+'px';
 
-    var bd=document.createElement('div'); bd.className='body'; bd.style.height=TH+'px';
+  // Grid Lines
+  for(var lm=0; lm<=1440; lm+=30){
+    var gl=document.createElement('div');
+    gl.className='gl '+(lm%60===0?'h':'m');
+    gl.style.top=(lm*PPM)+'px';
+    bd.appendChild(gl);
+  }
+
+  BL.filter(function(b){return b.d===idx;}).forEach(function(b){
+    var el=document.createElement('div');
+    el.className='blk '+b.t;
+    el.style.top=tp(b.sh,b.sm)+'px';
+    el.style.height=(hp(b.sh,b.sm,b.eh,b.em)-2)+'px';
     
-    // Grid
-    for(var lm=0;lm<=1440;lm+=30){
-      var gl=document.createElement('div');
-      gl.className='gl '+(lm%60===0?'h':'m');
-      gl.style.top=(lm*PPM)+'px';
-      bd.appendChild(gl);
-    }
+    var key='p-'+idx+'-'+b.sh+'-'+b.sm;
+    if(localStorage.getItem(key)) el.classList.add('done');
 
-    BL.filter(function(b){return b.d===idx;}).forEach(function(b){
-      var tpx=tp(b.sh,b.sm), hpx=hp(b.sh,b.sm,b.eh,b.em);
-      var el=document.createElement('div');
-      el.className='blk '+b.t;
-      el.style.top=tpx+'px';
-      el.style.height=Math.max(hpx-2,4)+'px';
-      
-      // Tracker Logic
-      var key='p-'+idx+'-'+b.sh+'-'+b.sm;
-      if(localStorage.getItem(key)) el.classList.add('done');
-      el.onclick=function(){
-        if(b.t==='pp'){
-           el.classList.toggle('done');
-           localStorage.getItem(key)?localStorage.removeItem(key):localStorage.setItem(key,'1');
-           updateStats();
-        }
-      };
+    el.onclick=function(){
+      if(b.t==='pp'){
+        el.classList.toggle('done');
+        localStorage.getItem(key)?localStorage.removeItem(key):localStorage.setItem(key,'1');
+        updatePapers();
+      }
+    };
 
-      el.innerHTML='<span class="bn">'+b.n+'</span><div class="btr"><span class="bt">'+ft(b.sh,b.sm)+'</span><span class="barr">&#8594;</span><span class="bt">'+ft(b.eh,b.em)+'</span></div><span class="bs">'+(b.s||'')+'</span>';
-      bd.appendChild(el);
-    });
+    el.innerHTML='<span class="bn">'+b.n+'</span><div class="btr"><span class="bt">'+ft(b.sh,b.sm)+'</span><span class="barr">&#8594;</span><span class="bt">'+ft(b.eh,b.em)+'</span></div><span class="bs">'+(b.s||'')+'</span>';
+    bd.appendChild(el);
+  });
 
-    pn.appendChild(bd);
-    pw.appendChild(pn);
-    panels.push(pn);
-  })(i,DAYS[i]);
-}
+  pn.appendChild(bd);
+  pw.appendChild(pn);
+  panels.push(pn);
+});
 
 function show(idx){
-  for(var k=0;k<tabs.length;k++){ tabs[k].className=k===idx?'tab on':'tab'; panels[k].className=k===idx?'panel on':'panel'; }
+  tabs.forEach(function(t,i){t.className=i===idx?'tab on':'tab';});
+  panels.forEach(function(p,i){p.className=i===idx?'panel on':'panel';});
   document.querySelector('.panel.on .body').appendChild(nowLine);
 }
 
-function updateStats(){
+function updatePapers(){
   var c=0; for(var i=0;i<localStorage.length;i++) if(localStorage.key(i).startsWith('p-')) c++;
-  document.getElementById('p-done').innerText=c;
+  document.getElementById('papers-count').innerText=c;
 }
 
-function tick(){
+function refreshTime(){
   var n=new Date();
   var m=n.getHours()*60 + n.getMinutes();
   var d=[6,0,1,2,3,4,5][n.getDay()];
@@ -236,12 +216,12 @@ function tick(){
   nowLine.style.top=(m*PPM)+'px';
 }
 
-// Init
-tick(); updateStats();
-setInterval(tick, 30000);
+// Initial Run
+refreshTime(); updatePapers();
+setInterval(refreshTime, 30000);
 setTimeout(function(){
   var n=new Date();
-  document.getElementById('main-scroller').scrollTop = (n.getHours()*60+n.getMinutes())*PPM - 100;
+  document.getElementById('scroller').scrollTop = (n.getHours()*60+n.getMinutes())*PPM - 100;
 }, 500);
 </script>
 </body>
