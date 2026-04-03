@@ -7,11 +7,508 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#08090d;color:#e0e0f0;font-family:Arial,sans-serif;overflow:hidden;height:100vh;display:flex;flex-direction:column}
-#top{padding:12px 14px 8px;flex-shrink:0}
-h1{font-size:26px;font-weight:900;letter-spacing:3px;color:#ff7a2f;display:inline}
-.hrow{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
-.pcounter{font-size:11px;background:rgba(255,122,47,.15);color:#ff7a2f;border:1px solid rgba(255,122,47,.3);border-radius:16px;padding:4px 12px;font-weight:700}
-.legend{display:flex;flex-wrap:wrap;gap:5px 12px;margin:8px 0 6px}
-.leg{display:flex;align-items:center;gap:4px;font-size:9px;color:#52547a}
-.ld{width:7px;height:7px;border-radius:2px}
-.tabs​​​​​​​​​​​​​​​​
+#top{padding:10px 14px 0;flex-shrink:0}
+.hrow{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+h1{font-size:22px;font-weight:900;letter-spacing:3px;color:#ff7a2f}
+#pcounter{font-size:10px;background:rgba(255,122,47,.15);color:#ff7a2f;border:1px solid rgba(255,122,47,.3);border-radius:14px;padding:3px 10px;font-weight:700;white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:4px 10px;margin-bottom:6px}
+.leg{display:flex;align-items:center;gap:3px;font-size:9px;color:#52547a}
+.ld{width:7px;height:7px;border-radius:2px;flex-shrink:0}
+.tabs{display:flex;gap:4px;overflow-x:auto;padding-bottom:6px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:6px 10px;border-radius:7px;font-size:11px;font-weight:700;border:1px solid #1e2035;background:#0f1018;color:#52547a;cursor:pointer;text-align:center;min-width:52px}
+.tab.on{background:#ff7a2f;color:#fff;border-color:#ff7a2f}
+.tab .td{font-size:12px;font-weight:900;display:block}
+.tab .tp{font-size:8px;display:block;opacity:.8;margin-top:1px}
+.calwrap{flex:1;display:flex;overflow:hidden;margin:0 14px 10px;border:1px solid #1e2035;border-radius:10px;background:#0f1018;position:relative}
+.gutter{width:44px;flex-shrink:0;background:#0f1018;border-right:1px solid #1e2035;overflow:hidden;position:relative}
+.gutinner{position:absolute;top:0;left:0;right:0}
+.tick{position:absolute;right:5px;font-size:9px;color:#3a3c60;transform:translateY(-50%);white-space:nowrap;pointer-events:none}
+.tick.h{color:#6062a0;font-size:10px;font-weight:700}
+.scroll{flex:1;overflow-y:scroll;position:relative}
+.scroll::-webkit-scrollbar{width:3px}
+.scroll::-webkit-scrollbar-thumb{background:#252840;border-radius:2px}
+.panel{display:none;position:relative}
+.panel.on{display:block}
+.gl{position:absolute;left:0;right:0;pointer-events:none}
+.gl.h{border-top:1px solid #1a1c30}
+.gl.hf{border-top:1px solid #1e2035}
+.gl.m{border-top:1px dashed #111220}
+.blk{position:absolute;left:6px;right:6px;border-radius:6px;border-left:4px solid;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:3px 7px;z-index:2}
+.blk.pp{cursor:pointer}
+.blk.pp:active{opacity:.8}
+.bn{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.btr{display:flex;align-items:center;gap:3px;margin-top:2px}
+.bt{font-size:10px;font-weight:800;padding:1px 5px;border-radius:3px;white-space:nowrap}
+.barr{font-size:8px;opacity:.3;color:#fff}
+.bs{font-size:9px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.55;line-height:1.2}
+.donebadge{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:8px;font-weight:900;letter-spacing:1px}
+.blk.pp{background:rgba(255,122,47,.16);color:#ffc090;border-color:#ff7a2f}
+.blk.pp .bn{color:#ffd4b0}
+.blk.pp .bt{background:rgba(255,122,47,.25);color:#ffb888}
+.blk.pp.done{background:rgba(34,201,122,.13);border-color:#22c97a;color:#5edfaa}
+.blk.pp.done .bn{color:#8aefca;text-decoration:line-through;opacity:.7}
+.blk.pp.done .bt{background:rgba(34,201,122,.2);color:#5edfaa}
+.blk.pp.done .donebadge{color:#22c97a}
+.blk.ph{background:rgba(61,158,255,.13);color:#7dc4ff;border-color:#3d9eff}
+.blk.ph .bn{color:#a8d8ff}
+.blk.ph .bt{background:rgba(61,158,255,.2);color:#7dc4ff}
+.blk.ch{background:rgba(168,85,247,.13);color:#c890ff;border-color:#a855f7}
+.blk.ch .bn{color:#ddb8ff}
+.blk.ch .bt{background:rgba(168,85,247,.2);color:#c890ff}
+.blk.ma{background:rgba(34,201,122,.13);color:#5edfaa;border-color:#22c97a}
+.blk.ma .bn{color:#8aefca}
+.blk.ma .bt{background:rgba(34,201,122,.2);color:#5edfaa}
+.blk.ip{background:rgba(245,158,11,.13);color:#ffc84a;border-color:#f59e0b}
+.blk.ip .bn{color:#ffd87a}
+.blk.ip .bt{background:rgba(245,158,11,.2);color:#ffc84a}
+.blk.gym{background:rgba(255,85,85,.13);color:#ff8888;border-color:#ff5555}
+.blk.gym .bn{color:#ffaaaa}
+.blk.gym .bt{background:rgba(255,85,85,.2);color:#ff8888}
+.blk.hw{background:rgba(244,114,182,.13);color:#f9a8d4;border-color:#f472b6}
+.blk.hw .bn{color:#fcc8e4}
+.blk.hw .bt{background:rgba(244,114,182,.2);color:#f9a8d4}
+.blk.wake{background:#141828;color:#9090d0;border-color:#3040a0;border-left-style:dashed}
+.blk.wake .bn{color:#b0b8e8;font-size:11px}
+.blk.wake .bt{background:#1e2440;color:#8090c0}
+.blk.meal{background:#1c1408;color:#d0a050;border-color:#705020}
+.blk.meal .bn{color:#e8c070;font-size:11px}
+.blk.meal .bt{background:#281c08;color:#c09040}
+.blk.brk{background:#0c180c;color:#60a060;border-color:#1e4020}
+.blk.brk .bn{color:#80c080;font-size:11px}
+.blk.brk .bt{background:#101e10;color:#508050}
+.blk.travel{background:#0c1620;color:#6090b8;border-color:#1e4060;border-left-style:dotted}
+.blk.travel .bn{color:#80b0d8;font-size:10px}
+.blk.travel .bt{background:#101e2c;color:#5888a8}
+.blk.sleep{background:#080810;color:#1e2030;border-color:#141420;border-left-style:dashed}
+.blk.sleep .bn{color:#2a2a40;font-size:11px}
+.blk.sleep .bt{background:#0a0a18;color:#1e2030}
+/* red line */
+#redline{position:absolute;left:0;right:0;height:2px;background:#ff3333;z-index:20;pointer-events:none}
+#redlabel{position:absolute;left:4px;font-size:9px;font-weight:700;color:#ff3333;background:#08090d;padding:0 3px;border-radius:2px;pointer-events:none;white-space:nowrap;z-index:21}
+/* grey hover line */
+#greyline{position:absolute;left:0;right:0;height:1px;background:rgba(150,150,200,.25);z-index:18;pointer-events:none;display:none}
+#greylabel{position:absolute;left:4px;font-size:9px;font-weight:600;color:#8888aa;background:#08090d;padding:0 3px;border-radius:2px;pointer-events:none;white-space:nowrap;z-index:19;display:none}
+</style>
+</head>
+<body>
+<div id="top">
+  <div class="hrow">
+    <h1>WEEKLY SCHEDULE</h1>
+    <span id="pcounter">0 / 20 done</span>
+  </div>
+  <div class="legend">
+    <div class="leg"><div class="ld" style="background:#ffd4b0"></div>Paper (tap=done)</div>
+    <div class="leg"><div class="ld" style="background:#a8d8ff"></div>Physics</div>
+    <div class="leg"><div class="ld" style="background:#ddb8ff"></div>Chemistry</div>
+    <div class="leg"><div class="ld" style="background:#8aefca"></div>Maths</div>
+    <div class="leg"><div class="ld" style="background:#ffd87a"></div>IPMAT</div>
+    <div class="leg"><div class="ld" style="background:#ffaaaa"></div>Gym</div>
+    <div class="leg"><div class="ld" style="background:#b0b8e8"></div>Wake</div>
+    <div class="leg"><div class="ld" style="background:#e8c070"></div>Meal</div>
+    <div class="leg"><div class="ld" style="background:#80c080"></div>Break</div>
+    <div class="leg"><div class="ld" style="background:#80b0d8"></div>Travel</div>
+  </div>
+  <div class="tabs" id="tabs"></div>
+</div>
+<div class="calwrap" id="calwrap">
+  <div class="gutter" id="gutter"><div class="gutinner" id="gutinner"></div></div>
+  <div class="scroll" id="scroll">
+    <div id="pw"></div>
+    <div id="redline" style="display:none"></div>
+    <div id="redlabel" style="display:none"></div>
+    <div id="greyline"></div>
+    <div id="greylabel"></div>
+  </div>
+</div>
+<script>
+var PPM = 1.5;
+var DMINS = 1440;
+var DH = DMINS * PPM;
+
+function fmt(m) {
+  m = ((m % DMINS) + DMINS) % DMINS;
+  var h = Math.floor(m / 60);
+  var mn = m % 60;
+  var h12 = h === 0 ? 12 : (h > 12 ? h - 12 : h);
+  var ap = h >= 12 ? 'pm' : 'am';
+  var ms = mn < 10 ? '0' + mn : '' + mn;
+  return h12 + ':' + ms + ap;
+}
+
+var DAYS = [
+  {n:'Mon',full:'Monday',   sub:'4 papers - Gym - Chest',       p:4, wake:8*60},
+  {n:'Tue',full:'Tuesday',  sub:'3 Maths papers - Classes',     p:3, wake:7*60+30},
+  {n:'Wed',full:'Wednesday',sub:'3 papers - Gym - Legs',        p:3, wake:8*60},
+  {n:'Thu',full:'Thursday', sub:'IPMAT HW - 1 paper',           p:1, wake:8*60, hv:1},
+  {n:'Fri',full:'Friday',   sub:'3 papers - Abs/Cardio',        p:3, wake:7*60+30},
+  {n:'Sat',full:'Saturday', sub:'3 papers - Chem - Back',       p:3, wake:7*60+30},
+  {n:'Sun',full:'Sunday',   sub:'3 papers - Physics',           p:3, wake:9*60}
+];
+
+var BL = [
+  // MON
+  {t:'sleep', d:0,sh:0, sm:0, eh:8, em:0, n:'Sleep',s:''},
+  {t:'wake',  d:0,sh:8, sm:0, eh:8, em:45,n:'Wake up + morning routine',s:'45m'},
+  {t:'meal',  d:0,sh:8, sm:45,eh:9, em:10,n:'Breakfast',s:'3 eggs + chai'},
+  {t:'pp',    d:0,sh:9, sm:15,eh:10,em:30,n:'Paper 1',s:'9702/11 - Physics P1 - 1h 15m'},
+  {t:'brk',   d:0,sh:10,sm:30,eh:11,em:30,n:'Free time',s:'1h'},
+  {t:'pp',    d:0,sh:11,sm:30,eh:12,em:45,n:'Paper 2',s:'9709/51 - Maths P5 - 1h 15m'},
+  {t:'brk',   d:0,sh:12,sm:45,eh:13,em:0, n:'Break',s:'15m'},
+  {t:'meal',  d:0,sh:13,sm:0, eh:13,em:40,n:'Lunch',s:'1:00pm fixed'},
+  {t:'pp',    d:0,sh:13,sm:40,eh:14,em:55,n:'Paper 3',s:'9702/21 - Physics P2 - 1h 15m'},
+  {t:'brk',   d:0,sh:14,sm:55,eh:16,em:20,n:'Free time',s:'1h 25m'},
+  {t:'travel',d:0,sh:16,sm:20,eh:16,em:30,n:'Leave for Gym',s:'leave 4:20 - 10m'},
+  {t:'gym',   d:0,sh:16,sm:30,eh:18,em:0, n:'Gym',s:'Chest - Shoulders - Bis'},
+  {t:'travel',d:0,sh:18,sm:0, eh:18,em:10,n:'Home from Gym',s:'back 6:10 - 10m'},
+  {t:'brk',   d:0,sh:18,sm:10,eh:18,em:35,n:'Rest',s:'25m'},
+  {t:'pp',    d:0,sh:18,sm:35,eh:19,em:50,n:'Paper 4',s:'9709/52 - Maths P5 - 1h 15m'},
+  {t:'meal',  d:0,sh:20,sm:0, eh:20,em:45,n:'Dinner',s:'Khichdi + buttermilk'},
+  {t:'brk',   d:0,sh:20,sm:45,eh:23,em:0, n:'Evening free',s:''},
+  {t:'sleep', d:0,sh:23,sm:0, eh:24,em:0, n:'Sleep',s:'wake 8:00am'},
+  // TUE
+  {t:'sleep', d:1,sh:0, sm:0, eh:7, em:30,n:'Sleep',s:''},
+  {t:'wake',  d:1,sh:7, sm:30,eh:8, em:15,n:'Wake up + morning routine',s:'45m'},
+  {t:'meal',  d:1,sh:8, sm:15,eh:8, em:40,n:'Breakfast',s:'3 eggs + chai'},
+  {t:'pp',    d:1,sh:8, sm:45,eh:10,em:35,n:'Paper 1',s:'9709/11 - Maths P1 - 1h 50m'},
+  {t:'brk',   d:1,sh:10,sm:35,eh:11,em:30,n:'Break',s:'55m'},
+  {t:'pp',    d:1,sh:11,sm:30,eh:12,em:45,n:'Paper 2',s:'9709/51 - Maths P5 - 1h 15m'},
+  {t:'brk',   d:1,sh:12,sm:45,eh:13,em:0, n:'Break',s:'15m'},
+  {t:'meal',  d:1,sh:13,sm:0, eh:13,em:40,n:'Lunch',s:'1:00pm fixed'},
+  {t:'pp',    d:1,sh:13,sm:40,eh:15,em:30,n:'Paper 3',s:'9709/12 - Maths P1 - 1h 50m'},
+  {t:'brk',   d:1,sh:15,sm:30,eh:16,em:15,n:'Free time',s:'45m'},
+  {t:'travel',d:1,sh:16,sm:15,eh:16,em:30,n:'Leave for Maths class',s:'leave 4:15 - 15m - Andheri'},
+  {t:'ma',    d:1,sh:16,sm:30,eh:18,em:0, n:'Maths Class',s:'4:30 to 6:00'},
+  {t:'travel',d:1,sh:18,sm:0, eh:18,em:15,n:'Leave for IPMAT',s:'leave 6:00 - 15m - Vileparle'},
+  {t:'ip',    d:1,sh:18,sm:30,eh:20,em:30,n:'IPMAT Class',s:'6:30 to 8:30'},
+  {t:'travel',d:1,sh:20,sm:30,eh:20,em:55,n:'Home from IPMAT',s:'back 8:55 - 20-25m'},
+  {t:'meal',  d:1,sh:21,sm:0, eh:21,em:40,n:'Dinner',s:'Thepla + buttermilk'},
+  {t:'brk',   d:1,sh:21,sm:40,eh:23,em:0, n:'Evening free',s:''},
+  {t:'sleep', d:1,sh:23,sm:0, eh:24,em:0, n:'Sleep',s:'wake 8:00am'},
+  // WED
+  {t:'sleep', d:2,sh:0, sm:0, eh:8, em:0, n:'Sleep',s:''},
+  {t:'wake',  d:2,sh:8, sm:0, eh:8, em:45,n:'Wake up + morning routine',s:'45m'},
+  {t:'meal',  d:2,sh:8, sm:45,eh:9, em:10,n:'Breakfast',s:'3 eggs + chai'},
+  {t:'pp',    d:2,sh:9, sm:15,eh:10,em:30,n:'Paper 1',s:'9702/12 - Physics P1 - 1h 15m'},
+  {t:'brk',   d:2,sh:10,sm:30,eh:11,em:10,n:'Break',s:'40m'},
+  {t:'pp',    d:2,sh:11,sm:10,eh:12,em:25,n:'Paper 2',s:'9702/22 - Physics P2 - 1h 15m'},
+  {t:'brk',   d:2,sh:12,sm:25,eh:13,em:0, n:'Break',s:'35m'},
+  {t:'meal',  d:2,sh:13,sm:0, eh:13,em:40,n:'Lunch',s:'1:00pm fixed'},
+  {t:'pp',    d:2,sh:13,sm:40,eh:14,em:55,n:'Paper 3',s:'9709/52 - Maths P5 - 1h 15m'},
+  {t:'brk',   d:2,sh:14,sm:55,eh:16,em:20,n:'Free time',s:'1h 25m'},
+  {t:'travel',d:2,sh:16,sm:20,eh:16,em:30,n:'Leave for Gym',s:'leave 4:20 - 10m'},
+  {t:'gym',   d:2,sh:16,sm:30,eh:18,em:0, n:'Gym',s:'Legs'},
+  {t:'travel',d:2,sh:18,sm:0, eh:18,em:10,n:'Home from Gym',s:'back 6:10 - 10m'},
+  {t:'ch',    d:2,sh:18,sm:30,eh:20,em:0, n:'Chemistry Class',s:'at home - 6:30 to 8:00'},
+  {t:'meal',  d:2,sh:20,sm:0, eh:20,em:45,n:'Dinner',s:'Veg Roll'},
+  {t:'brk',   d:2,sh:20,sm:45,eh:23,em:0, n:'Evening free',s:''},
+  {t:'sleep', d:2,sh:23,sm:0, eh:24,em:0, n:'Sleep',s:'wake 8:00am'},
+  // THU
+  {t:'sleep', d:3,sh:0, sm:0, eh:8, em:0, n:'Sleep',s:''},
+  {t:'wake',  d:3,sh:8, sm:0, eh:8, em:45,n:'Wake up + morning routine',s:'45m'},
+  {t:'meal',  d:3,sh:8, sm:45,eh:9, em:10,n:'Breakfast',s:'3 eggs + chai'},
+  {t:'hw',    d:3,sh:9, sm:15,eh:10,em:15,n:'IPMAT Homework',s:'1h focused'},
+  {t:'brk',   d:3,sh:10,sm:15,eh:10,em:45,n:'Break',s:'30m'},
+  {t:'pp',    d:3,sh:10,sm:45,eh:12,em:0, n:'Paper 1',s:'9709/53 - Maths P5 - 1h 15m'},
+  {t:'brk',   d:3,sh:12,sm:0, eh:12,em:15,n:'Break',s:'15m'},
+  {t:'meal',  d:3,sh:12,sm:15,eh:12,em:45,n:'Lunch',s:'12:15 early - travel day'},
+  {t:'travel',d:3,sh:12,sm:45,eh:13,em:30,n:'Leave for Physics',s:'leave 12:45 - 45m - Bandra'},
+  {t:'ph',    d:3,sh:13,sm:30,eh:15,em:30,n:'Physics Class',s:'1:30 to 3:30'},
+  {t:'travel',d:3,sh:15,sm:30,eh:16,em:15,n:'Home from Physics',s:'back 4:15 - 45m'},
+  {t:'travel',d:3,sh:16,sm:15,eh:16,em:30,n:'Leave for Maths',s:'leave 4:15 - 15m - Andheri'},
+  {t:'ma',    d:3,sh:16,sm:30,eh:18,em:0, n:'Maths Class',s:'4:30 to 6:00'},
+  {t:'travel',d:3,sh:18,sm:0, eh:18,em:15,n:'Leave for IPMAT',s:'leave 6:00 - 15m - Vileparle'},
+  {t:'ip',    d:3,sh:18,sm:30,eh:20,em:30,n:'IPMAT Class',s:'6:30 to 8:30'},
+  {t:'travel',d:3,sh:20,sm:30,eh:20,em:55,n:'Home from IPMAT',s:'back 8:55 - 20-25m'},
+  {t:'meal',  d:3,sh:21,sm:0, eh:21,em:40,n:'Dinner',s:''},
+  {t:'brk',   d:3,sh:21,sm:40,eh:23,em:0, n:'Evening free',s:''},
+  {t:'sleep', d:3,sh:23,sm:0, eh:24,em:0, n:'Sleep',s:'wake 7:30am'},
+  // FRI
+  {t:'sleep', d:4,sh:0, sm:0, eh:7, em:30,n:'Sleep',s:''},
+  {t:'wake',  d:4,sh:7, sm:30,eh:8, em:15,n:'Wake up + morning routine',s:'45m'},
+  {t:'meal',  d:4,sh:8, sm:15,eh:8, em:40,n:'Breakfast',s:'3 eggs + chai'},
+  {t:'pp',    d:4,sh:8, sm:45,eh:10,em:0, n:'Paper 1',s:'9702/13 - Physics P1 - 1h 15m'},
+  {t:'brk',   d:4,sh:10,sm:0, eh:10,em:40,n:'Break',s:'40m'},
+  {t:'pp',    d:4,sh:10,sm:40,eh:11,em:55,n:'Paper 2',s:'9709/53 - Maths P5 - 1h 15m'},
+  {t:'brk',   d:4,sh:11,sm:55,eh:12,em:15,n:'Break',s:'20m'},
+  {t:'meal',  d:4,sh:12,sm:15,eh:12,em:45,n:'Lunch',s:'12:15 early - travel day'},
+  {t:'travel',d:4,sh:12,sm:45,eh:13,em:30,n:'Leave for Physics',s:'leave 12:45 - 45m - Bandra'},
+  {t:'ph',    d:4,sh:13,sm:30,eh:15,em:30,n:'Physics Class',s:'1:30 to 3:30'},
+  {t:'travel',d:4,sh:15,sm:30,eh:16,em:15,n:'Home from Physics',s:'back 4:15 - 45m'},
+  {t:'brk',   d:4,sh:16,sm:15,eh:16,em:50,n:'Rest',s:'35m'},
+  {t:'travel',d:4,sh:16,sm:50,eh:17,em:0, n:'Leave for Gym',s:'leave 4:50 - 10m'},
+  {t:'gym',   d:4,sh:17,sm:0, eh:18,em:30,n:'Gym',s:'Abs + Cardio'},
+  {t:'travel',d:4,sh:18,sm:30,eh:18,em:40,n:'Home from Gym',s:'back 6:40 - 10m'},
+  {t:'brk',   d:4,sh:18,sm:40,eh:19,em:30,n:'Rest / freshen up',s:'50m'},
+  {t:'pp',    d:4,sh:19,sm:30,eh:20,em:45,n:'Paper 3',s:'9702/23 - Physics P2 - 1h 15m'},
+  {t:'meal',  d:4,sh:21,sm:0, eh:21,em:40,n:'Dinner',s:''},
+  {t:'brk',   d:4,sh:21,sm:40,eh:23,em:0, n:'Evening free',s:''},
+  {t:'sleep', d:4,sh:23,sm:0, eh:24,em:0, n:'Sleep',s:'wake 7:30am'},
+  // SAT
+  {t:'sleep', d:5,sh:0, sm:0, eh:7, em:30,n:'Sleep',s:''},
+  {t:'wake',  d:5,sh:7, sm:30,eh:8, em:15,n:'Wake up + morning routine',s:'45m'},
+  {t:'meal',  d:5,sh:8, sm:15,eh:8, em:40,n:'Breakfast',s:'3 eggs + chai'},
+  {t:'pp',    d:5,sh:8, sm:45,eh:10,em:35,n:'Paper 1',s:'9709/13 - Maths P1 - 1h 50m'},
+  {t:'brk',   d:5,sh:10,sm:35,eh:11,em:0, n:'Break',s:'25m'},
+  {t:'ch',    d:5,sh:11,sm:0, eh:12,em:30,n:'Chemistry Class',s:'at home - 11:00 to 12:30'},
+  {t:'brk',   d:5,sh:12,sm:30,eh:13,em:0, n:'Break',s:'30m'},
+  {t:'meal',  d:5,sh:13,sm:0, eh:13,em:40,n:'Lunch',s:'1:00pm fixed'},
+  {t:'pp',    d:5,sh:13,sm:40,eh:14,em:55,n:'Paper 2',s:'9702/11 - Physics P1 - 1h 15m'},
+  {t:'brk',   d:5,sh:14,sm:55,eh:15,em:30,n:'Break',s:'35m'},
+  {t:'pp',    d:5,sh:15,sm:30,eh:16,em:45,n:'Paper 3',s:'9702/21 - Physics P2 - 1h 15m'},
+  {t:'travel',d:5,sh:16,sm:45,eh:16,em:55,n:'Leave for Gym',s:'leave 4:45 - 10m'},
+  {t:'gym',   d:5,sh:17,sm:0, eh:18,em:30,n:'Gym',s:'Back - Tris'},
+  {t:'travel',d:5,sh:18,sm:30,eh:18,em:40,n:'Home from Gym',s:'back 6:40 - 10m'},
+  {t:'meal',  d:5,sh:20,sm:0, eh:20,em:45,n:'Dinner',s:'Dominos / BK'},
+  {t:'brk',   d:5,sh:20,sm:45,eh:23,em:0, n:'Evening free',s:''},
+  {t:'sleep', d:5,sh:23,sm:0, eh:24,em:0, n:'Sleep',s:'wake 9:00am'},
+  // SUN
+  {t:'sleep', d:6,sh:0, sm:0, eh:9, em:0, n:'Sleep',s:''},
+  {t:'wake',  d:6,sh:9, sm:0, eh:9, em:45,n:'Wake up + morning routine',s:'45m'},
+  {t:'meal',  d:6,sh:9, sm:45,eh:10,em:10,n:'Breakfast',s:''},
+  {t:'brk',   d:6,sh:10,sm:10,eh:11,em:0, n:'Free time',s:'50m'},
+  {t:'ph',    d:6,sh:11,sm:0, eh:12,em:30,n:'Physics Class',s:'at home - 11:00 to 12:30'},
+  {t:'brk',   d:6,sh:12,sm:30,eh:13,em:0, n:'Break',s:'30m'},
+  {t:'meal',  d:6,sh:13,sm:0, eh:13,em:40,n:'Lunch',s:'1:00pm fixed'},
+  {t:'pp',    d:6,sh:13,sm:40,eh:15,em:30,n:'Paper 1',s:'9709/11 - Maths P1 - 1h 50m'},
+  {t:'brk',   d:6,sh:15,sm:30,eh:16,em:15,n:'Break',s:'45m'},
+  {t:'pp',    d:6,sh:16,sm:15,eh:17,em:30,n:'Paper 2',s:'9709/51 - Maths P5 - 1h 15m'},
+  {t:'brk',   d:6,sh:17,sm:30,eh:18,em:5, n:'Break',s:'35m'},
+  {t:'pp',    d:6,sh:18,sm:5, eh:19,em:20,n:'Paper 3',s:'9702/11 - Physics P1 - 1h 15m'},
+  {t:'meal',  d:6,sh:20,sm:0, eh:20,em:45,n:'Dinner',s:'Rice day'},
+  {t:'brk',   d:6,sh:20,sm:45,eh:23,em:0, n:'Evening free',s:''},
+  {t:'sleep', d:6,sh:23,sm:0, eh:24,em:0, n:'Sleep',s:'wake 8:00am'}
+];
+
+// Safely get/set localStorage
+function lsGet(k) { try { return localStorage.getItem(k); } catch(e) { return null; } }
+function lsSet(k,v) { try { localStorage.setItem(k,v); } catch(e) {} }
+function lsDel(k) { try { localStorage.removeItem(k); } catch(e) {} }
+
+// Assign paper keys
+var paperKeys = [];
+var totalPapers = 0;
+var i, j;
+for (i = 0; i < BL.length; i++) {
+  if (BL[i].t === 'pp') {
+    BL[i].pkey = 'pp_d' + BL[i].d + '_' + totalPapers;
+    paperKeys.push(BL[i].pkey);
+    totalPapers++;
+  }
+}
+
+// Build gutter
+var gutinner = document.getElementById('gutinner');
+gutinner.style.height = DH + 'px';
+for (var gm = 0; gm <= DMINS; gm += 15) {
+  var gmin = gm % 60;
+  if (gmin !== 0 && gmin !== 30) continue;
+  var tk = document.createElement('div');
+  tk.className = 'tick' + (gmin === 0 ? ' h' : '');
+  tk.style.top = (gm * PPM) + 'px';
+  tk.textContent = fmt(gm);
+  gutinner.appendChild(tk);
+}
+
+// Build panels and tabs
+var tabsEl = document.getElementById('tabs');
+var pw = document.getElementById('pw');
+var panelEls = [];
+var tabEls = [];
+var scrollEl = document.getElementById('scroll');
+
+for (i = 0; i < DAYS.length; i++) {
+  (function(idx, day) {
+    var tb = document.createElement('button');
+    tb.className = 'tab';
+    tb.innerHTML = '<span class="td">' + day.n + '</span><span class="tp">' + day.p + ' papers</span>';
+    tb.onclick = function() { showDay(idx, -1); };
+    tabsEl.appendChild(tb);
+    tabEls.push(tb);
+
+    var pn = document.createElement('div');
+    pn.className = 'panel';
+    pn.style.height = DH + 'px';
+    pn.style.position = 'relative';
+
+    // gridlines
+    for (var lm = 0; lm <= DMINS; lm += 15) {
+      var ln = lm % 60;
+      if (ln !== 0 && ln !== 30) continue;
+      var gl = document.createElement('div');
+      gl.className = 'gl ' + (ln === 0 ? 'h' : 'm');
+      gl.style.top = (lm * PPM) + 'px';
+      pn.appendChild(gl);
+    }
+
+    // blocks
+    for (j = 0; j < BL.length; j++) {
+      var b = BL[j];
+      if (b.d !== idx) continue;
+      var sm2 = b.sh * 60 + b.sm;
+      var em2 = b.eh * 60 + b.em;
+      if (em2 > DMINS) em2 = DMINS;
+      var hpx = (em2 - sm2) * PPM;
+      if (hpx < 2) continue;
+
+      var el = document.createElement('div');
+      el.className = 'blk ' + b.t;
+      el.style.top = (sm2 * PPM) + 'px';
+      el.style.height = Math.max(hpx - 2, 4) + 'px';
+
+      if (b.t === 'pp') {
+        var isDone = lsGet(b.pkey) === '1';
+        if (isDone) el.className += ' done';
+        (function(el2, key) {
+          el2.onclick = function() {
+            var nowDone = lsGet(key) === '1';
+            if (nowDone) {
+              lsDel(key);
+              el2.className = el2.className.replace(' done', '');
+              el2.querySelector('.donebadge').textContent = '';
+            } else {
+              lsSet(key, '1');
+              el2.className += ' done';
+              el2.querySelector('.donebadge').textContent = 'DONE';
+            }
+            updateCounter();
+          };
+        })(el, b.pkey);
+      }
+
+      var html = '<span class="bn">' + b.n + '</span>';
+      if (hpx >= 24) {
+        html += '<div class="btr"><span class="bt">' + fmt(sm2) + '</span>'
+          + '<span class="barr">&#8594;</span>'
+          + '<span class="bt">' + fmt(em2) + '</span></div>';
+      }
+      if (hpx >= 42 && b.s) html += '<span class="bs">' + b.s + '</span>';
+      if (b.t === 'pp') {
+        html += '<span class="donebadge">' + (lsGet(b.pkey) === '1' ? 'DONE' : '') + '</span>';
+      }
+      el.innerHTML = html;
+      pn.appendChild(el);
+    }
+
+    pw.appendChild(pn);
+    panelEls.push(pn);
+  })(i, DAYS[i]);
+}
+
+// Sync gutter with scroll
+scrollEl.addEventListener('scroll', function() {
+  gutinner.style.top = '-' + scrollEl.scrollTop + 'px';
+  checkMidnight();
+});
+
+var curDay = 0;
+var blockSwitch = false;
+
+function showDay(idx, scrollMin) {
+  curDay = idx;
+  var k;
+  for (k = 0; k < tabEls.length; k++) tabEls[k].className = k === idx ? 'tab on' : 'tab';
+  for (k = 0; k < panelEls.length; k++) panelEls[k].className = k === idx ? 'panel on' : 'panel';
+  blockSwitch = true;
+  if (scrollMin >= 0) {
+    scrollEl.scrollTop = scrollMin * PPM;
+  } else {
+    scrollEl.scrollTop = 0;
+  }
+  gutinner.style.top = '-' + scrollEl.scrollTop + 'px';
+  updateRedLine();
+  setTimeout(function() { blockSwitch = false; }, 200);
+}
+
+// Midnight cross detection
+var lastST = 0;
+function checkMidnight() {
+  if (blockSwitch) return;
+  var st = scrollEl.scrollTop;
+  var vh = scrollEl.clientHeight;
+  var maxST = DH - vh;
+  if (st >= maxST - 5 && lastST < maxST - 5 && curDay < 6) {
+    showDay(curDay + 1, 0);
+  }
+  lastST = st;
+}
+
+// Touch: scroll past top -> prev day
+var touchStartY = 0;
+var touchStartST = 0;
+scrollEl.addEventListener('touchstart', function(e) {
+  touchStartY = e.touches[0].clientY;
+  touchStartST = scrollEl.scrollTop;
+}, {passive:true});
+scrollEl.addEventListener('touchend', function(e) {
+  var dy = e.changedTouches[0].clientY - touchStartY;
+  if (dy > 40 && touchStartST < 5 && curDay > 0) {
+    showDay(curDay - 1, DMINS - scrollEl.clientHeight / PPM);
+  }
+}, {passive:true});
+
+// Red line
+var redLine = document.getElementById('redline');
+var redLabel = document.getElementById('redlabel');
+function updateRedLine() {
+  var now = new Date();
+  var jsd = now.getDay();
+  var ourd = jsd === 0 ? 6 : jsd - 1;
+  if (curDay === ourd) {
+    var mins = now.getHours() * 60 + now.getMinutes();
+    var topPx = mins * PPM;
+    redLine.style.top = topPx + 'px';
+    redLine.style.display = 'block';
+    redLabel.style.top = (topPx - 10) + 'px';
+    redLabel.textContent = fmt(mins);
+    redLabel.style.display = 'block';
+  } else {
+    redLine.style.display = 'none';
+    redLabel.style.display = 'none';
+  }
+}
+setInterval(updateRedLine, 30000);
+
+// Grey hover line
+var greyLine = document.getElementById('greyline');
+var greyLabel = document.getElementById('greylabel');
+scrollEl.addEventListener('mousemove', function(e) {
+  var rect = scrollEl.getBoundingClientRect();
+  var relY = e.clientY - rect.top + scrollEl.scrollTop;
+  var mins = Math.round(relY / PPM);
+  if (mins >= 0 && mins <= DMINS) {
+    greyLine.style.top = (mins * PPM) + 'px';
+    greyLine.style.display = 'block';
+    greyLabel.style.top = (mins * PPM - 10) + 'px';
+    greyLabel.textContent = fmt(mins);
+    greyLabel.style.display = 'block';
+  }
+});
+scrollEl.addEventListener('mouseleave', function() {
+  greyLine.style.display = 'none';
+  greyLabel.style.display = 'none';
+});
+
+// Counter
+function updateCounter() {
+  var done = 0, k;
+  for (k = 0; k < paperKeys.length; k++) {
+    if (lsGet(paperKeys[k]) === '1') done++;
+  }
+  document.getElementById('pcounter').textContent = done + ' / ' + totalPapers + ' done';
+}
+updateCounter();
+
+// Init on load
+window.onload = function() {
+  var now = new Date();
+  var jsd = now.getDay();
+  var ourd = jsd === 0 ? 6 : jsd - 1;
+  var mins = now.getHours() * 60 + now.getMinutes();
+  var vh = scrollEl.clientHeight;
+  var targetScroll = Math.max(0, mins * PPM - vh / 3);
+  showDay(ourd, targetScroll / PPM);
+};
+</script>
+</body>
+</html>
